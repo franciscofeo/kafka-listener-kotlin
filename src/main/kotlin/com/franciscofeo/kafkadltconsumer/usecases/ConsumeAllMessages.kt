@@ -6,39 +6,34 @@ import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.TopicPartition
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
-import java.time.Duration.ofSeconds
+import java.time.Duration
 
 @Component
-class ConsumeMessages(
-    @Qualifier("consumer")
+class ConsumeAllMessages(
+    @Qualifier("consumer2")
     private val kafkaConsumer: KafkaConsumer<String, String>
 ) {
 
-
-    private val offsetMap = OffsetInfo()
-
-    fun consume(topic: String, messageQuantity: Int) {
+    fun consume(topic: String) {
         kafkaConsumer.subscribe(arrayListOf(topic))
-        val messages = kafkaConsumer.poll(ofSeconds(5))
-        if (messages.isEmpty) return
 
-        val offset = kafkaConsumer.position(kafkaConsumer.assignment().first())
+        /**
+         * Default config of max.poll.records is 500 records of each poll() call
+         */
+        val messages = kafkaConsumer.poll(Duration.ofSeconds(5))
 
         LOG.info("Messages in the topic: ${messages.count()}")
-        LOG.info("Current Offset: $offset")
 
         LOG.info("-----------------------------------------------")
-        messages.take(messageQuantity).forEach {
+        messages.forEach {
             LOG.info("Message content: ${it.value()}")
             LOG.info("Message key: ${it.key()}")
             LOG.info("Message offset: ${it.offset()}")
             LOG.info("Message partition: ${it.partition()}")
-
-            offsetMap[TopicPartition(it.topic(), it.partition())] = OffsetAndMetadata(it.offset() + 1)
         }
         LOG.info("-----------------------------------------------")
 
-        kafkaConsumer.commitSync(offsetMap)
+        kafkaConsumer.commitSync()
         kafkaConsumer.unsubscribe()
     }
 
@@ -46,6 +41,3 @@ class ConsumeMessages(
         private val LOG = KotlinLogging.logger("consumer-logger")
     }
 }
-
-typealias OffsetInfo = HashMap<TopicPartition, OffsetAndMetadata>
-
