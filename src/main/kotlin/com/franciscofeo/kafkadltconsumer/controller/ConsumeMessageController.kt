@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/consume")
 @RestController
 class ConsumeMessageController(
-    val consumeMessages: ConsumeMessages
+    val consumeMessages: ConsumeMessages,
 ) {
 
     @PostMapping
-    fun consume(@RequestParam topicName: String) {
-        consumeMessages.consume(topicName)
+    fun consume(@RequestParam topicName: String, @RequestParam(value = "qtd") messageQuantity: Int) {
+        consumeMessages.consume(topicName, messageQuantity)
     }
+
 
 }

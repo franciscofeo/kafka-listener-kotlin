@@ -12,7 +12,7 @@ class ConsumerConfig {
     @Bean
     fun consumer(): KafkaConsumer<String, String> =
         with(mutableMapOf<String, Any>()) {
-            this[ConsumerConfig.GROUP_ID_CONFIG] = "my-consumer"
+            this[ConsumerConfig.GROUP_ID_CONFIG] = "my-consumer-gid"
             this[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = "localhost:29091"
             this[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
             this[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
