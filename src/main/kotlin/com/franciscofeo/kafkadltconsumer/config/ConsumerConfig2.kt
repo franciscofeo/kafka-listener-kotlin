@@ -18,6 +18,7 @@ class ConsumerConfig2 {
             this[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
             this[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "earliest"
             this[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = "false"
+            this[ConsumerConfig.MAX_POLL_RECORDS_CONFIG] = 2 // ONLY FOR TESTS, DEFAULT IS 500
             KafkaConsumer<String, String>(this)
         }
 }

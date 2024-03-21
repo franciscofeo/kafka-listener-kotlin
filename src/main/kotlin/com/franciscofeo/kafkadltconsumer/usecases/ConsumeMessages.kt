@@ -1,6 +1,7 @@
 package com.franciscofeo.kafkadltconsumer.usecases
 
 import mu.KotlinLogging
+import org.apache.kafka.clients.admin.KafkaAdminClient
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.TopicPartition
@@ -37,6 +38,7 @@ class ConsumeMessages(
             offsetMap[TopicPartition(it.topic(), it.partition())] = OffsetAndMetadata(it.offset() + 1)
         }
         LOG.info("-----------------------------------------------")
+
 
         kafkaConsumer.commitSync(offsetMap)
         kafkaConsumer.unsubscribe()

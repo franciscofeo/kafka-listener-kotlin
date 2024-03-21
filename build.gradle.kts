@@ -24,6 +24,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("io.github.microutils:kotlin-logging:3.0.5")
+    implementation("org.apache.kafka:kafka-clients")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
