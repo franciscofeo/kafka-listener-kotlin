@@ -1,6 +1,6 @@
 ## HOW TO RUN
 
-Run docker-compose file, the application will started at `http://localhost:8080/`
+Run docker-compose file, the application will start at `http://localhost:8080/`
 
 ```bash
 docker compose up -d
